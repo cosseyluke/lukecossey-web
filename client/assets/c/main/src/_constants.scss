@@ -1,0 +1,375 @@
+@import 'assets/c/main/lib/mixins';
+
+//
+// _constants.scss
+//
+// Site specific variables, mixins and generic mixins which rely on site
+// specific settings.
+//
+
+$body-font-max: 18px;
+$body-font-min: 16px;
+
+// largest 32-bit integer
+$overlay-zindex: 2147483647;
+$disabled-scroll-zindex: $overlay-zindex - 1;
+
+$hover-opacity: .7;
+
+$transition-time: 750ms;
+
+//
+// Colors
+//
+$black: #202020;
+$white: #fff;
+
+// {
+//     "PHONE_PORTRAIT": 375,
+//     "PHONE_MAX": 667,
+//     "TABLET_PORTRAIT": 800,
+//     "TABLET_MAX": 1280,
+//     "DESIGN_MAX": 1440,
+//     "MAX_WIDTH": 1780
+// }
+
+
+//
+// Responsive settings.
+//
+// Throughout this project, mobile is used to refer to any mobile device
+// including a tablet. Tablet is used specifially to refer to a tablet sized
+// device (whether it's a actually a mobile device or not). Phone is used to
+// refer specifically to a phone sized device.
+$tablet-max: 1280px;
+$desktop-min: $tablet-max + 1px;
+$tablet-portrait: 800px;
+$tablet-landscape-min: $tablet-portrait + 1px;
+$phone-max: 667px;
+$tablet-min: $phone-max + 1px;
+$phone-portrait: 375px;
+$phone-landscape-min: $phone-portrait + 1px;
+
+//
+// Structural
+//
+$design-max: 1440px;
+$max-width: 1780px;
+
+$desktop-margin: 74px;
+$desktop-inner: $design-max;
+
+$tablet-margin: 40px;
+$tablet-inner: $tablet-portrait - $tablet-margin * 2;
+
+$phone-margin: 17px;
+$phone-inner: $phone-portrait;
+
+
+
+// Grid system
+$design-gutter: 5px;
+$total-cols: 12;
+$col-width: percentage(1 / $total-cols);
+$default-gutter: percentage($design-gutter / $design-max);
+
+// These mixins provide convenience methods for styles that should be applied
+// at certain viewport sizes.
+
+@mixin above-design-max {
+  html.no-mediaqueries & {
+    @content;
+  }
+
+  @media screen and (min-width: #{$design-max + 1}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  html.no-mediaqueries & {
+    @content;
+  }
+
+  @media screen and (min-width: $desktop-min) {
+    @content;
+  }
+}
+
+@mixin desktop-and-tablet-landscape {
+  html.no-mediaqueries & {
+    @content;
+  }
+
+  @media screen and (min-width: $tablet-landscape-min) {
+    @content;
+  }
+}
+
+@mixin desktop-and-tablet {
+  html.no-mediaqueries & {
+    @content;
+  }
+
+  @media screen and (min-width: $tablet-min) {
+    @content;
+  }
+}
+
+@mixin desktop-tablet-and-phone-landscape {
+  html.no-mediaqueries & {
+    @content;
+  }
+
+  @media screen and (min-width: $phone-landscape-min) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (max-width: $tablet-max) and (min-width: $tablet-min) {
+    @content;
+  }
+}
+
+@mixin tablet-and-phone {
+  @media screen and (max-width: $tablet-max) {
+    @content;
+  }
+}
+
+@mixin tablet-landscape {
+  @media screen and (max-width: $tablet-max) and (min-width: $tablet-landscape-min) {
+    @content;
+  }
+}
+
+@mixin tablet-portrait {
+  @media screen and (max-width: $tablet-portrait) and (min-width: $tablet-min) {
+    @content;
+  }
+}
+
+@mixin tablet-portrait-and-phone-landscape {
+  @media screen and (max-width: $tablet-portrait) and (min-width: $phone-landscape-min) {
+    @content;
+  }
+}
+
+@mixin tablet-portrait-and-phone {
+  @media screen and (max-width: $tablet-portrait) {
+    @content;
+  }
+}
+
+@mixin phone {
+  @media screen and (max-width: $phone-max) {
+    @content;
+  }
+}
+
+@mixin phone-landscape {
+  @media screen and (max-width: $phone-max) and (min-width: $phone-landscape-min) {
+    @content;
+  }
+}
+
+@mixin phone-portrait {
+  @media screen and (max-width: $phone-portrait) {
+    @content;
+  }
+}
+
+
+//
+// Anchor styles
+//
+
+@mixin clear-anchor-style {
+  background-image: none;
+  text-decoration: none;
+
+  .cssgradients &,
+  .no-cssgradients &,
+  .no-js & {
+    background-image: none;
+    text-decoration: none;
+  }
+
+  &:hover,
+  &.hover {
+    .no-touchevents &,
+    .cssgradients &,
+    .no-cssgradients &,
+    .no-js & {
+      background-image: none;
+      text-decoration: none;
+    }
+  }
+
+  &.current-page {
+    .cssgradients &,
+    .no-cssgradients &,
+    .no-js & {
+      background-image: none;
+      text-decoration: none;
+    }
+
+    &.related-hovered {
+      .cssgradients &,
+      .no-cssgradients &,
+      .no-js & {
+        background-image: none;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+// By default:
+// 1. Links are underlined, except for links to the current-page (see
+//    anchors.js);
+// 2. The underline is removed on hover;
+// 3. Links to the current-page are underlined if a related link (see
+//    anchors.js) is hovered.
+@mixin default-anchor-style($color: currentColor, $weight: 1px, $offset: 1px) {
+  .no-cssgradients &,
+  .no-js & {
+    text-decoration: underline;
+  }
+
+  .cssgradients & {
+    @include underline($color: $color, $weight: $weight, $offset: $offset);
+  }
+
+  &:hover {
+    .no-touchevents & {
+      background-image: none;
+    }
+
+    .no-cssgradients &,
+    .no-js & {
+      text-decoration: none;
+    }
+  }
+
+  &.hover {
+    .cssgradients & {
+      background-image: none;
+    }
+
+    .no-cssgradients &,
+    .no-js & {
+      text-decoration: none;
+    }
+  }
+
+  &.current-page {
+    .cssgradients & {
+      background-image: none;
+    }
+
+    .no-cssgradients &,
+    .no-js & {
+      text-decoration: none;
+    }
+
+    &.related-hovered {
+      .no-cssgradients &,
+      .no-js & {
+        text-decoration: underline;
+      }
+
+      .cssgradients & {
+        @include underline($color: $color, $weight: $weight, $offset: $offset);
+      }
+    }
+  }
+}
+
+// The inverse style, typically used for headers and navs:
+// 1. Links are not underlined, except for links to the current-page (see
+//    anchors.js);
+// 2. An underline is added on hover;
+// 3. The underline on the link to the current-page is removed if a related
+//    link (see anchors.js) is hovered.
+@mixin inverse-anchor-style($color: currentColor, $weight: 1px, $offset: 1px) {
+  .cssgradients & {
+    background-image: none;
+  }
+
+  .no-cssgradients &,
+  .no-js & {
+    text-decoration: none;
+  }
+
+  &:hover {
+    .no-touchevents & {
+      @include underline($color: $color, $weight: $weight, $offset: $offset);
+    }
+
+    .no-cssgradients &,
+    .no-js & {
+      text-decoration: underline;
+    }
+  }
+
+  &.hover {
+    .cssgradients & {
+      @include underline($color: $color, $weight: $weight, $offset: $offset);
+    }
+
+    .no-cssgradients &,
+    .no-js & {
+      text-decoration: underline;
+    }
+  }
+
+  &.current-page,
+  &.checked {
+    .cssgradients & {
+      @include underline($color: $color, $weight: $weight, $offset: $offset);
+
+      &.related-hovered {
+        background-image: none;
+      }
+    }
+
+    .no-cssgradients &,
+    .no-js & {
+      text-decoration: underline;
+
+      &.related-hovered {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+@mixin opacity-anchor-style {
+  @include hover {
+    opacity: $hover-opacity;
+  }
+
+  &.current-page {
+    opacity: $hover-opacity;
+
+    &.related-hovered {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin color-anchor-style($color) {
+  @include hover {
+    color: $color;
+  }
+
+  &.current-page {
+    color: $color;
+
+    &.related-hovered {
+      color: inherit;
+    }
+  }
+}

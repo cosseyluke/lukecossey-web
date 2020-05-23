@@ -1,0 +1,340 @@
+//
+// _mixins.scss
+//
+// Generic, non-site setting specific mixins used on all sites.
+//
+
+
+// Convert truthy / falsy values to bools
+@function bool($value: false) {
+  @if $value == false or
+      $value == "false" or
+      $value == 'false' or
+      $value == null or
+      $value == "null" or
+      $value == 'null' or
+      $value == '' or
+      $value == 0 {
+        @return false;
+      }
+  @return true;
+}
+
+// Convert truthy / falsy values to bools
+@function nulleable-bool($value: null) {
+  @if $value == false or
+      $value == '' or
+      $value == "false" or
+      $value == 'false' or
+      $value == 0 {
+        @return false;
+      }
+  @if $value == null or
+      $value == "null" or
+      $value == 'null' {
+        @return null;
+      }
+  @return true;
+}
+
+// Remove the unit of a variable
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
+}
+
+@function decimal-round($number, $digits: 0, $mode: round) {
+  $n: 1;
+  // $number must be a number
+  @if type-of($number) != number {
+      @warn '#{ $number } is not a number.';
+      @return $number;
+  }
+  // $digits must be a unitless number
+  @if type-of($digits) != number {
+      @warn '#{ $digits } is not a number.';
+      @return $number;
+  } @else if not unitless($digits) {
+      @warn '#{ $digits } has a unit.';
+      @return $number;
+  }
+  @if $digits > 0 {
+      @for $i from 1 through $digits {
+          $n: $n * 10;
+      }
+  }
+  @if $mode == round {
+      @return round($number * $n) / $n;
+  } @else if $mode == ceil {
+      @return ceil($number * $n) / $n;
+  } @else if $mode == floor {
+      @return floor($number * $n) / $n;
+  } @else {
+      @warn '#{ $mode } is undefined keyword.';
+      @return $number;
+  }
+}
+
+@mixin hover {
+  &:hover {
+    .no-touchevents &,
+    .no-js & {
+      @content;
+    }
+  }
+
+  &.hover {
+    @content;
+  }
+}
+
+@mixin clearfix {
+  // For IE 6/7 (trigger hasLayout)
+  zoom: 1;
+
+  &:after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
+@mixin hardware-accelerated {
+  transform: translateZ(0);
+}
+
+@mixin scrollable {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+// Creates a two line hamburger. Requires the element to have a child capable
+// of having pseudo-elements and with class hamburger-inner.
+// All arguments can be passed as a percentage, with line-width and line-height
+// being a percentage of hamburger-width, and line-gap a percentage of
+// line-height. Note that passing a percentage for line-height is likely to
+// cause subpixel rendering issues.
+@mixin hamburger($hamburger-width, $hamburger-height, $line-width,
+                 $line-height, $line-gap, $transition-time: 500ms,
+                 $active-selector: '&.active') {
+  position: relative;
+  width: $hamburger-width;
+  height: 0;
+  padding-top: $hamburger-height;
+
+  #{$active-selector} {
+    .hamburger-inner {
+      &::before {
+        transform: translate3d(0, ($line-gap + $line-height) / 2, 0) rotate(45deg);
+      }
+
+      &::after {
+        transform: translate3d(0, -($line-gap + $line-height) / 2, 0) rotate(-45deg);
+      }
+    }
+  }
+
+  .hamburger-inner {
+    position: absolute;
+    top: 50%;
+    margin-top: -$line-height / 2;
+    height: 0;
+    padding-top: $line-height;
+    left: 50%;
+    margin-left: -$line-width / 2;
+    width: $line-width;
+
+    &::before,
+    &::after {
+      @include transition(transform, $transition-time, $prefixed: true);
+      content: '';
+      display: block;
+      position: absolute;
+      height: 100%;
+      left: 0;
+      width: 100%;
+      transform: rotate(0);
+      background-color: currentColor;
+    }
+
+    &::before {
+      top: -($line-gap + $line-height) / 2;
+    }
+
+    &::after {
+      bottom: -($line-gap + $line-height) / 2;
+    }
+  }
+}
+
+// Allows more control over the placement of the underline.
+//
+// Requires Modernizr.cssgradients.
+//
+// Gradient is not supported on IE9 & below, or Opera Mini. currentColor is
+// safe to use as support is better than gradient (and inherit doesn't work
+// inside a gradient).
+@mixin underline($color: currentColor, $weight: .075em, $offset: .075em) {
+  text-decoration: none;
+  background-image: unquote('linear-gradient(')to top,
+    transparent $offset,
+    $color $offset,
+    $color ($offset + $weight),
+    transparent ($offset + $weight)unquote(')');
+}
+
+@mixin disable-br {
+  br {
+    content: ' ';
+  }
+
+  br:after {
+    content: ' ';
+  }
+}
+
+
+// Sets display inline-block, plus a few fixes for older browsers.
+@mixin inline-block {
+  // sass-lint:disable no-duplicate-properties
+  // for old FF
+  display: -moz-inline-stack;
+  display: inline-block;
+  // trigger has layout
+  zoom: 1;
+  // Necessary for IE 7, but creates issues with cssutil
+  // *display: inline;
+  vertical-align: top;
+}
+
+
+// All fixed position elements get put into their own layer.
+@mixin fixed {
+  position: fixed;
+  @include hardware-accelerated;
+}
+
+
+// Vertically centers children elements.
+// Works in all browsers we care about, BUT the parent element must have a
+// non-auto height
+@mixin known-height-vertical-center {
+  // create a full-height inline block pseudo-element
+  &::before {
+    @include inline-block;
+    content: '';
+    height: 100%;
+    // vertical alignment of the inline element
+    vertical-align: middle;
+  }
+
+  > * {
+    @include inline-block;
+    vertical-align: middle;
+  }
+}
+
+// Intended for use primarily with transitioning transforms for which $prop
+// needs to be prefixed for some old browsers and for which it's beneficial
+// to set will-change.
+//
+// Multiple properties can be set using interpolation, but only the first will
+// be prefixed.
+//
+// Be warned, this mixin sets perspective by default, which will result in a
+// new stacking context and can result in text fuzziness. Pass
+// $perspective: false to disable
+//
+// Example usages:
+// @include transition(opacity, 200ms);
+// @include transition(transform, 500ms, true);
+// @include transition(#{background-color, height}, linear, 500ms);
+@mixin transition($prop, $time, $timing: ease, $delay: 0s, $prefixed: false,
+                  $perspective: true) {
+  @if $prefixed {
+    -moz-transition-property: -moz-#{$prop};
+    -webkit-transition-property: -webkit-#{$prop};
+  } @else {
+    -moz-transition: $prop;
+    -webkit-transition: $prop;
+  }
+  transition-property: $prop;
+  transition-duration: $time;
+  transition-timing-function: $timing;
+  transition-delay: $delay;
+  will-change: $prop;
+  backface-visibility: hidden;
+
+  @if $perspective {
+    perspective: 1000;
+  }
+}
+
+@mixin autofill($background-color, $textColor, $input-height: 3em) {
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-internal-autofill-selected {
+     box-shadow: 0 0 0 $input-height $background-color inset;
+     -webkit-text-fill-color: $textColor;
+  }
+}
+
+@mixin placeholder {
+  &.placeholder { @content; }
+  &:-ms-placeholder { @content; }
+  &::-webkit-input-placeholder { @content; }
+
+  &:-moz-placeholder {
+    @content;
+    opacity: 1;
+  }
+
+  &::-moz-placeholder {
+    @content;
+    opacity: 1;
+  }
+}
+
+@mixin fullscreen {
+  &.fullscreen { @content; }
+  &:-webkit-full-screen { @content; }
+  &:-moz-full-screen { @content; }
+  &:fullscreen { @content; }
+}
+
+// Gotcha: this DOESN'T work on later versions of IE.
+@mixin greyscale($amount, $transition-duration: 0) {
+  @if $amount > 0 {
+    // Firefox 10-34
+    filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='saturate' values='0'/></filter></svg>#grayscale");
+  } @else {
+    filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0'/></filter></svg>#grayscale");
+  }
+
+  // Chrome 19+,
+  // Safari 6+,
+  // Safari 6+ iOS,
+  // Opera 15+
+  -webkit-filter: grayscale($amount * 100%);
+
+  // Firefox 35+
+  filter: grayscale($amount * 100%);
+
+  @if $amount > 0 {
+    // IE 6-9
+    filter: gray;
+  }
+
+  @if strip-unit($transition-duration) > 0 {
+    transition: filter #{$transition-duration};
+    // Webkit hack until filter is unprefixed
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+      -webkit-transition: -webkit-filter #{$transition-duration}, filter #{$transition-duration};
+      transition: -webkit-filter #{$transition-duration}, filter #{$transition-duration};
+    }
+  }
+}

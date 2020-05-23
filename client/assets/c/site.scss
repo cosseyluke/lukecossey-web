@@ -1,0 +1,34 @@
+@charset 'UTF-8';
+
+@import 'assets/c/main/src/constants';
+@import 'assets/c/main/lib/tools/typography';
+@import 'assets/c/main/src/style';
+
+.site-page,
+.main-footer {
+  html.no-js &,
+  &.initialised {
+    opacity: 1;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li {
+  html.no-js &,
+  html.font-loaded & {
+    opacity: 1;
+  }
+}
+
+.p404 {
+  & > * {
+    width: percentage(960px / $desktop-inner);
+    margin-left: susy-span(3 wide) + susy-gutter() / 2;
+  }
+}

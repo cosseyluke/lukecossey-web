@@ -1,0 +1,27 @@
+@import 'assets/c/main/lib/tools/typography';
+@import 'assets/c/main/src/constants';
+@import 'assets/c/main/src/type';
+
+// Style which is applied to tinymce inputs in the admin.
+body {
+  @include common-editor-styles;
+  @include default-editor-styles;
+  @include font-settings;
+  font-size: 16px;
+
+  > :first-child {
+    margin-top: 0;
+
+    > :first-child {
+      margin-top: 0;
+    }
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+}

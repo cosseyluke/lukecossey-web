@@ -1,0 +1,19 @@
+//
+// Font-faces
+//
+@mixin webfont($name, $filename, $weight: 400, $style: normal) {
+  // sass-lint:disable-all
+  // see https://css-tricks.com/snippets/css/using-font-face/
+  @font-face {
+    font-family: "#{$name}";
+    src: url('./' + $filename + '.eot');
+    src: url('./' + $filename + '.eot?#iefix') format('embedded-opentype'),
+         url('./' + $filename + '.woff2') format('woff2'),
+         url('./' + $filename + '.woff') format('woff');
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
+
+@include webfont('sohne-web', 'SohneWeb-Regular', 400);
+@include webfont('sohne-web', 'SohneWeb-Medium', 500);

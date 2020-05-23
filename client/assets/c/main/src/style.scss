@@ -1,0 +1,93 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+.fontSize-xxl,
+h1 {
+  @include sohne-medium(65px);
+  line-height: 1.25;
+  letter-spacing: 1.06px;
+
+  @include phone {
+    @include sohne-medium(42px);
+  }
+}
+
+.fontSize-xl,
+h2 {
+  @include sohne-medium(48px);
+  line-height: 1.25;
+  letter-spacing: 0.85px;
+
+  @include phone {
+    @include sohne-medium(38px);
+  }
+}
+
+.fontSize-l,
+h3 {
+  @include sohne-medium(32px);
+  line-height: 1.25;
+  letter-spacing: 0px;
+
+  @include phone {
+    @include sohne-medium(26px);
+  }
+}
+
+.fontSize-m,
+h4 {
+  @include sohne-medium(26px);
+  line-height: 1.2222222222;
+  letter-spacing: 0.4px;
+
+  @include phone {
+    @include sohne-medium(22px);
+  }
+}
+
+.fontSize-s,
+h5 {
+  @include sohne-medium(22px);
+  line-height: 1.25;
+  letter-spacing: 2.57px;
+
+  @include phone {
+    @include sohne-medium(19px);
+  }
+}
+
+.fontSize-xs,
+h6 {
+  @include sohne-medium(18px);
+  line-height: 1.2142857143;
+  letter-spacing: 1.2px;
+
+  @include phone {
+    @include sohne-medium(16px);
+  }
+}
+
+.text {
+  p {
+    margin: 0 0 .9em;
+  }
+  & > :last-child {
+    margin-bottom: 0 !important;
+  }
+  ul {
+    @include phone {
+      padding-left: 15px;
+    }
+    li {
+      list-style: inherit;
+      font-weight: 300;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+@import 'f/fonts.scss';
+@import 'assets/c/main/src/type';
+
+body,
+table {
+  @include font-settings;
+}
+
+// Textfields should be wrapped in an element with one of these class.
+.cms-html,
+.cms-text {
+  > :first-child {
+    margin-top: 0;
+
+    > :first-child {
+      margin-top: 0;
+    }
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Fields editable as html in the admin should be wrapped in an element with
+// this class to ensure consistency in style between admin and site.
+.cms-html {
+  @include common-editor-styles;
+  @include default-editor-styles;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li {
+  html.no-js &,
+  html.font-loaded & {
+    opacity: 1;
+  }
+}

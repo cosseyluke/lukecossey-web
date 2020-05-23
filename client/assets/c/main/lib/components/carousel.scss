@@ -1,0 +1,90 @@
+@import 'assets/c/main/lib/mixins';
+
+//
+// Carousel items start with position relative but on a single line all in a
+// line, to avoid any flash of unstyled content prior to flickity doing its
+// thing.
+//
+// See carousel.js.
+//
+.carousel {
+  position: relative;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+
+  &::after {
+    // enable flickity by default
+    content: 'flickity';
+    display: none;
+  }
+
+  &.show-controls {
+    .flickity-prev-next-button,
+    .flickity-page-dots {
+      display: block;
+    }
+  }
+
+  &.flickity-enabled {
+    overflow: visible;
+  }
+
+  .no-js & {
+    // show horizontal scrollbar
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  // Child of .carousel, so pre-initialisation or non-js.
+  // We use inline-block here instead of floating so we can support Flickity's
+  // watchCSS option, which uses an after pseudo-element. NOTE: This means you
+  // will need strip whitespace between carousel-items.
+  > .carousel-item {
+    @include inline-block;
+    position: relative;
+    white-space: normal;
+    // inline-block, so need to specify default width
+    width: 100%;
+  }
+
+  .flickity-viewport {
+    white-space: normal;
+  }
+
+  .flickity-slider {
+    // Enable these if you need to increase the performance of the slider,
+    // but be warned that they can result in unusual behaviour with the
+    // carousel items displaying beyond their own area.
+    // will-change: transform;
+    // -webkit-backface-visibility: hidden;
+    // -moz-backface-visibility: hidden;
+    // -ms-backface-visibility: hidden;
+    // backface-visibility: hidden;
+  }
+
+  .flickity-prev-next-button,
+  .flickity-page-dots {
+    // See .show-controls above.
+    display: none;
+  }
+
+  .flickity-prev-next-button {
+    background: transparent;
+    border: 0;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    @include hover {
+      background: transparent;
+    }
+
+    svg {
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+@mixin responsive-font-size($px-size, $min-px-size: null, $max-px-size: null) {
+  $unitless-vw-size: $px-size / $design-max * 100;
+  $stop-shrinking-at: if($min-px-size, round($design-max * $min-px-size / $px-size), null);
+  $start-shrinking-at: if($max-px-size, round($design-max * $max-px-size / $px-size), null);
+
+  @if $stop-shrinking-at {
+    @media (max-width: $stop-shrinking-at) {
+      font-size: $stop-shrinking-at * $unitless-vw-size / 100;
+    }
+
+    @if $start-shrinking-at {
+      @media (min-width: #{$stop-shrinking-at + 1px}) and
+             (max-width: #{$start-shrinking-at - 1px}) {
+        font-size: #{$unitless-vw-size + 'vw'};
+      }
+
+      @media (min-width: $start-shrinking-at) {
+        font-size: $start-shrinking-at * $unitless-vw-size / 100;
+      }
+    } @else {
+      @media (min-width: #{$stop-shrinking-at + 1}) {
+        font-size: #{$unitless-vw-size + 'vw'};
+      }
+    }
+  } @else if $start-shrinking-at {
+    @media (max-width: #{$start-shrinking-at - 1}) {
+      font-size: #{$unitless-vw-size + 'vw'};
+    }
+
+    @media (min-width: $start-shrinking-at) {
+      font-size: $start-shrinking-at * $unitless-vw-size / 100;
+    }
+  } @else {
+      font-size: $px-size;
+  }
+}
+
+@mixin constrained-font-container(
+    $px-width, $px-font-size, $min-px-font-size: null,
+    $max-px-font-size: null) {
+  @include responsive-font-size(
+    $px-font-size, $min-px-font-size, $max-px-font-size);
+  $em-width: $px-width / $px-font-size * 1em;
+  width: $em-width;
+  max-width: 100%;
+}

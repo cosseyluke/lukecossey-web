@@ -1,0 +1,16 @@
+.paginated .pagination-nav {
+  .controls {
+    display: none;
+  }
+
+  &.force-nav,
+  .no-js & {
+    .controls {
+      display: block;
+    }
+
+    .loading {
+      display: none;
+    }
+  }
+}
