@@ -1,0 +1,180 @@
+@import 'styles/main/lib/mixins';
+
+@mixin clear-input-style {
+  background: none;
+  border: 0;
+  outline: 0;
+  border-radius: 0;
+  box-shadow: none;
+  text-indent: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+form {
+  &.autosubmit {
+    html.js & {
+      [type='submit'] {
+        display: none;
+      }
+    }
+  }
+}
+
+button,
+input,
+select,
+textarea {
+  font-size: inherit;
+  font-weight: inherit;
+  text-align: inherit;
+  color: inherit;
+}
+
+button,
+textarea,
+select {
+  padding: .5em;
+}
+
+select,
+button,
+textarea {
+  @include clear-input-style;
+}
+
+button,
+select,
+input[type='button'],
+input[type='checkbox'],
+input[type='radio'],
+input[type='reset'],
+input[type='submit'] {
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+textarea {
+  max-width: 100%;
+}
+
+input {
+  @include placeholder {
+    opacity: 1;
+    color: inherit;
+  }
+
+  &[type='button'],
+  &[type='color'],
+  &[type='date'],
+  &[type='datetime-local'],
+  &[type='email'],
+  &[type='file'],
+  &[type='image'],
+  &[type='month'],
+  &[type='number'],
+  &[type='password'],
+  &[type='reset'],
+  &[type='search'],
+  &[type='submit'],
+  &[type='tel'],
+  &[type='text'],
+  &[type='time'],
+  &[type='url'],
+  &[type='week'] {
+    @include clear-input-style;
+    padding: .5em;
+  }
+
+  &[type='number'] {
+    // -moz-appearance: none doesn't remove spinners
+    -moz-appearance: textfield;
+  }
+}
+
+.checkbox-wrap,
+.radio-wrap
+.select-wrap,
+.input-wrap {
+  display: inline-block;
+}
+
+.checkbox-wrap,
+.radio-wrap {
+  position: relative;
+  cursor: pointer;
+
+  &.disabled {
+    cursor: default;
+  }
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+
+    html.js & {
+      @include clear-input-style;
+      opacity: 0.01;
+    }
+  }
+}
+
+.radio-wrap.checked,
+input[type='radio']:checked {
+  cursor: default;
+}
+
+.select-wrap {
+  position: relative;
+  cursor: pointer;
+
+  &.disabled {
+    cursor: default;
+  }
+
+  &::after {
+    content: '▼';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 2.5em;
+    height: 1em;
+    margin: auto;
+    cursor: inherit;
+    font-size: .6em;
+    line-height: 1.3333333;
+    pointer-events: none;
+    text-align: center;
+  }
+
+  select {
+    padding-right: 1.5em;
+    width: 100%;
+
+    &:-ms-expand {
+      display: none;
+    }
+  }
+}
+
+label[for] {
+  cursor: pointer;
+}

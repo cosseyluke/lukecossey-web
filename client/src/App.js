@@ -1,3 +1,5 @@
+import 'normalize.css'
+
 import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
@@ -5,22 +7,38 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import './App.scss'
 
-import { PostIndex } from './Post';
+import { PostIndex, PostDetail } from './Post';
 
 
 function App() {
   return (
     <Router>
+      <Header />
       <Switch>
+        <Route path="/log/:slug" component={PostDetail} />
         <Route path="/log">
           <PostIndex />
         </Route>
-        <Route path="/">
+          <Route path="/">
           <Home />
         </Route>
       </Switch>
     </Router>
+  )
+}
+
+function Header() {
+  return (
+    <header className="main-header structural">
+      <div className="header-title">
+        <h3>
+          <Link to={"/"}>Luke Cossey</Link>
+          <Link to={"/log"}>Log</Link>
+        </h3>
+      </div>
+    </header>
   )
 }
 

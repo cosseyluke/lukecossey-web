@@ -1,0 +1,119 @@
+@import 'styles/main/src/constants';
+@import 'styles/main/lib/type_mixins';
+
+//
+// _type.scss
+//
+
+//
+// Font mixins
+//
+// If provided, font size is expected to be in px. If both font-size and
+// min-font-size are provided, the font size will be made responsive using the
+// responsive-font-size mixin below.
+//
+@mixin sohne($font-px-size: 0, $min-px-size: null, $max-px-size: null) {
+  @include responsive-font-size($font-px-size, $min-px-size, $max-px-size);
+  // font-family: 'sohne-web', sans-serif;
+  font-family: Helvetica, sans-serif;
+}
+
+@mixin sohne-regular($font-size: 0, $min-px-size: null, $max-px-size: null) {
+  @include sohne($font-size, $min-px-size, $max-px-size);
+  font-weight: 400;
+}
+
+@mixin sohne-medium($font-size: 0, $min-px-size: null, $max-px-size: null) {
+  @include sohne($font-size, $min-px-size, $max-px-size);
+  font-weight: 500;
+}
+
+// Site specific font mixins.
+//
+// These mixins define reusable groups of font-related styles, and should be
+// used where possible to keep type styles consistent around the site.
+
+// Style to be applied to type editable as html in the admin.
+@mixin common-editor-styles {
+  @include font-settings;
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  blockquote:first-child {
+    > :first-child {
+      margin-top: 0;
+    }
+  }
+
+  blockquote:last-child {
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  h3,
+  h4,
+  h5,
+  h6,
+  li {
+    font-weight: normal;
+
+    a {
+      @include inverse-anchor-style;
+    }
+  }
+
+  p,
+  blockquote {
+    a {
+      @include default-anchor-style;
+    }
+  }
+}
+
+@mixin default-editor-styles {
+  // h3 {
+  //   @include example-font-regular(30px);
+  // }
+  // etc
+}
+
+@mixin input-type-sizing($font-size, $min-size: null) {
+  // A wrapper around responsive-font-size that stops shrinking at 16px, as
+  // this is the minimum iOS will allow before zooming in upon an input being
+  // focussed.
+  @if $font-size < 16px {
+    $font-size: 16px;
+  }
+
+  @if $min-size != null {
+    @if $min-size < 16px {
+      $min-size: 16px;
+    }
+    @include responsive-font-size($font-size, $min-size);
+  } @else {
+    font-size: $font-size;
+  }
+}
+
+@mixin font-settings {
+  // sass-lint:disable no-duplicate-properties
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;  // Firefox version of font-smoothing
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: 'kern';
+  -moz-font-feature-settings: 'kern';
+  -moz-font-feature-settings: 'kern=1';
+  -webkit-font-kerning: normal;
+  -moz-font-kerning: normal;
+  font-feature-settings: 'kern';
+  font-kerning: normal;
+  @include sohne-regular(13px);
+  color: $black;
+}

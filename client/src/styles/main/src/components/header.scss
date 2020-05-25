@@ -1,0 +1,53 @@
+@import 'styles/main/src/constants';
+@import 'styles/main/src/type';
+
+.main-header {
+  a {
+    @include opacity-anchor-style;
+
+    .initialised & {
+      transition: opacity .2s ease;
+    }
+  }
+  .header-title {
+    h3 {
+      a {
+        &:not(:first-child) {
+          &:before {
+            @include inline-block;
+            content: ' — ';
+
+            @include desktop-and-tablet {
+              margin-left: 8px;
+              margin-right: 8px;
+            }
+            @include phone {
+              margin-left: 4px;
+              margin-right: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+  @include desktop-and-tablet {
+    margin-top: 25px;
+    margin-bottom: 150px;
+
+    .header-title {
+      @include inline-block;
+      width: percentage(480px / $desktop-inner);
+      margin-left: percentage(360px / $desktop-inner);
+    }
+  }
+  @include phone {
+    margin-top: percentage(120px / $desktop-inner);
+    margin-bottom: 90px;
+
+    .header-title {
+      @include inline-block;
+      width: percentage(1200px / $desktop-inner);
+      margin-left: percentage(120px / $desktop-inner);
+    }
+  }
+}
