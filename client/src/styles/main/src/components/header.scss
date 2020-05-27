@@ -2,6 +2,13 @@
 @import 'styles/main/src/type';
 
 .main-header {
+  @include desktop-and-tablet {
+    // position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 5;
+  }
   a {
     @include opacity-anchor-style;
 

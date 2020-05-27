@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import parse from 'html-react-parser';
+import { AllHtmlEntities } from 'html-entities';
 import { format } from 'date-fns'
 import isodate from 'isodate'
 import './Post.scss'
@@ -102,6 +104,8 @@ class PostDetail extends Component {
   render() {
     if (this.state.post) {
       const pubDate = format(isodate(this.state.post.pub_date), 'MMMM d, y')
+      const entities = new AllHtmlEntities()
+      const intro = entities.decode(this.state.post.intro)
 
       return (
         <section className='blog-post'>
@@ -114,7 +118,7 @@ class PostDetail extends Component {
                 <h3>{this.state.post.title}</h3>
       					<div className="date">{pubDate}</div>
               </div>
-              <div className="intro-wrap"><div className="text">{this.state.post.intro}</div></div>
+              <div className="intro-wrap"><div className="text">{parse(intro)}</div></div>
             </div>
           </div>
         </section>

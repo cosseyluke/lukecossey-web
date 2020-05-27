@@ -1,6 +1,9 @@
 var express = require('express');
+var sanitizeHtml = require('sanitize-html');
 var router = express.Router();
 const Post = require('../Post');
+
+const POST_HTML_ALLOWED_TAGS = ['p', 'br', 'b', 'i', 'em', 'strong', 'a' ]
 
 /* GET post listings */
 router.get('/', async(req, res) => {
@@ -13,18 +16,19 @@ router.get('/', async(req, res) => {
 });
 
 router.post('/', async(req, res) => {
-    console.log(req.body);
-    const post = new Post({
-        title: req.body.title,
-        intro: req.body.intro
-    });
+  const body = {
+    title: req.body.title,
+    intro: sanitizeHtml(req.body.intro, {
+      allowedTags: POST_HTML_ALLOWED_TAGS})
+  }
+  const post = new Post(body);
 
-    try {
-        const newPost = await post.save();
-        res.status(201).json(newPost);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
+  try {
+  const newPost = await post.save();
+  res.status(201).json(newPost);
+  } catch (err) {
+  res.status(400).json({ message: err.message });
+  }
 });
 
 router.delete('/:id', async (req, res) => {
@@ -40,9 +44,13 @@ router.delete('/:id', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   try {
-    await Post.findByIdAndUpdate(req.params.id, req.body)
-    await Post.save()
-    res.send(food)
+    const body = {
+      title: req.body.title,
+      intro: sanitizeHtml(req.body.intro, {
+        allowedTags: POST_HTML_ALLOWED_TAGS})
+    }
+    const post = await Post.findByIdAndUpdate(req.params.id, body)
+    res.status(200).send(post)
   } catch (err) {
     res.status(500).send(err)
   }

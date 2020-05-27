@@ -338,3 +338,23 @@
     }
   }
 }
+
+@mixin horiz-gradient($from, $to, $to-stop: 100%) {
+  background: $from; /* Old browsers */
+  background: -moz-linear-gradient(left, $from 0%, $to $to-stop); /* FF3.6+ */
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(0%, $from),
+    color-stop($to-stop, $to)
+  ); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(
+    left,
+    $from 0%,
+    $to $to-stop
+  ); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left, $from 0%, $to $to-stop); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left, $from 0%, $to $to-stop); /* IE10+ */
+  background: linear-gradient(to right, $from 0%, $to $to-stop); /* W3C */
+}

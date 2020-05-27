@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slug = require('mongoose-slug-updater');
+const Entities = require('html-entities').AllHtmlEntities
 mongoose.plugin(slug);
 
 const postSchema = new mongoose.Schema({
@@ -24,6 +25,19 @@ const postSchema = new mongoose.Schema({
     type: String,
     default: '',
     required: false
+  }
+})
+
+postSchema.set('toJSON', {
+  transform: (doc, ret, options) => {
+    const entities = new Entities()
+
+    return {
+      pub_date: ret.pub_date,
+      title: ret.title,
+      slug: ret.slug,
+      intro: entities.encode(ret.intro)
+    }
   }
 })
 
