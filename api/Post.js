@@ -3,6 +3,23 @@ const slug = require('mongoose-slug-updater');
 const Entities = require('html-entities').AllHtmlEntities
 mongoose.plugin(slug);
 
+const postBlockSchema = new mongoose.Schema({
+  sort_order: {
+    type: Number,
+    default: 0,
+    required: true
+  },
+  text: {
+    type: String,
+    default: '',
+    required: false,
+  },
+  post: {type: mongoose.Schema.Types.ObjectId, ref: 'Post'}
+})
+
+module.exports.PostBlock = mongoose.model('PostBlock', postBlockSchema);
+
+
 const postSchema = new mongoose.Schema({
   is_live: {
     type: Boolean,
@@ -25,7 +42,10 @@ const postSchema = new mongoose.Schema({
     type: String,
     default: '',
     required: false
-  }
+  },
+  blocks: [
+    {type: mongoose.Schema.Types.ObjectId, ref: 'PostBlock'}
+  ]
 })
 
 postSchema.set('toJSON', {
@@ -33,38 +53,14 @@ postSchema.set('toJSON', {
     const entities = new Entities()
 
     return {
+      _id: ret._id,
       pub_date: ret.pub_date,
       title: ret.title,
       slug: ret.slug,
-      intro: entities.encode(ret.intro)
+      intro: entities.encode(ret.intro),
+      blocks: ret.blocks,
     }
   }
 })
 
-const postBlockSchema = new mongoose.Schema({
-  post: postSchema,
-  sort_order: {
-    type: Number,
-    default: 0,
-    required: true
-  },
-  text: {
-    type: String,
-    default: '',
-    required: false,
-  }
-})
-
-// block_type = models.CharField(max_length=8, choices=TYPE_CHOICES,
-//                                   db_index=True)
-// parent = models.ForeignKey(
-//     Post, related_name='blocks', on_delete=models.CASCADE)
-//
-// class Meta:
-//     ordering = ('sort_order', 'id')
-//
-// def __str__(self):
-//     return '%s on %s' % (self.get_block_type_display(),
-//                          str(self.parent))
-
-module.exports = mongoose.model('Post', postSchema);
+module.exports.Post = mongoose.model('Post', postSchema);

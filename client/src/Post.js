@@ -81,12 +81,42 @@ class PostIndex extends Component {
   }
 }
 
+class PostBlock extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render () {
+    const entities = new AllHtmlEntities()
+    const text = entities.decode(this.props.block.text)
+
+    return (
+      <div className="block-listing" key={this.key}>
+        <div className="text">{text}</div>
+      </div>
+    )
+  }
+}
+
+class PostBlockList extends Component {
+  render() {
+    return (
+      <div className="block-list">
+        {this.props.blocks.map((block) => (
+          <PostBlock block={block} key={block._id} />
+        ))}
+      </div>
+    )
+  }
+}
+
 class PostDetail extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       post: null,
+      blocks: []
     }
   }
 
@@ -119,6 +149,7 @@ class PostDetail extends Component {
       					<div className="date">{pubDate}</div>
               </div>
               <div className="intro-wrap"><div className="text">{parse(intro)}</div></div>
+              <PostBlockList blocks={this.state.blocks} />
             </div>
           </div>
         </section>
