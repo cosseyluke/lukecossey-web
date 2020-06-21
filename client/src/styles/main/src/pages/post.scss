@@ -1,26 +1,6 @@
 @import 'styles/main/src/constants';
 @import 'styles/main/src/type';
 
-.post-index-page,
-.post-detail-page {
-  .post-bkg {
-    background: #FFF4F4;
-    z-index: -1;
-    position: fixed;
-    width: 200vw;
-    min-width: 200vh;
-    height: 200vw;
-    min-height: 200vh;
-    transform: rotate(45deg);
-    left: 40vw;
-    top: 0;
-
-    .initialised & {
-      transition: background-color 10s ease;
-    }
-  }
-}
-
 .post-date-wrap {
   @include sohne-regular(13px);
 

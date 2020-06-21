@@ -75,7 +75,6 @@ class PostIndex extends Component {
         <div className="post-list-wrap">
           <PostList posts={posts} />
         </div>
-        <div className="post-bkg" />
       </div>
     );
   }
@@ -92,7 +91,7 @@ class PostBlock extends Component {
 
     return (
       <div className="block-listing" key={this.key}>
-        <div className="text">{text}</div>
+        <div className="text">{parse(text)}</div>
       </div>
     )
   }
@@ -115,8 +114,7 @@ class PostDetail extends Component {
     super(props)
 
     this.state = {
-      post: null,
-      blocks: []
+      post: null
     }
   }
 
@@ -145,11 +143,11 @@ class PostDetail extends Component {
             </div>
             <div className="post-content-wrap">
               <div className="post-title title-wrap">
-                <h3>{this.state.post.title}</h3>
+                <h3 className="fontSize-m">{this.state.post.title}</h3>
       					<div className="date">{pubDate}</div>
               </div>
               <div className="intro-wrap"><div className="text">{parse(intro)}</div></div>
-              <PostBlockList blocks={this.state.blocks} />
+              <PostBlockList blocks={this.state.post.blocks} />
             </div>
           </div>
         </section>
@@ -157,16 +155,6 @@ class PostDetail extends Component {
     }
 
     return (<section className='blog-post'/>)
-    //
-    //
-    //
-    //   <div className="post-index-page">
-    //     <div className="post-list-wrap">
-    //       <PostList posts={posts} />
-    //     </div>
-    //     <div className="post-bkg" />
-    //   </div>
-    // );
   }
 }
 

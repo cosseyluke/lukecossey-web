@@ -18,7 +18,6 @@ function App() {
     <Router>
       <Header />
       <Switch>
-        <Route path="/listen" component={ListenPage} />
         <Route path="/log/:slug" component={PostDetail} />
         <Route path="/log">
           <PostIndex />
@@ -37,7 +36,6 @@ function Header() {
       <div className="header-title">
         <h3>
           <Link to={"/"}>Luke Cossey</Link>
-          <Link to={"/listen"}>Listen</Link>
           <Link to={"/log"}>Log</Link>
         </h3>
       </div>
