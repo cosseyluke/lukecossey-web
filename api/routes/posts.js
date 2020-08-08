@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {Post} = require('../Post');
+const {Post} = require('../src/Post');
 
 /**
  * GET post listings

@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var admin_app = require('../admin_app');
+var app = require('../src/app');
+var admin_app = require('../src/admin_app');
 var debug = require('debug')('api:server');
 var http = require('http');
 

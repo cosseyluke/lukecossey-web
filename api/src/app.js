@@ -13,8 +13,8 @@ const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Connected to database!'));
 
-var postRouter = require('./routes/posts');
-var testAPIRouter = require('./routes/testAPI');
+var postRouter = require('../routes/posts');
+var testAPIRouter = require('../routes/testAPI');
 
 var app = express();
 

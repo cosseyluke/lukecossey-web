@@ -1,7 +1,7 @@
 var express = require('express');
 var sanitizeHtml = require('sanitize-html');
 var router = express.Router();
-const {Post, PostBlock} = require('../Post');
+const {Post, PostBlock} = require('../src/Post');
 
 const POST_HTML_ALLOWED_TAGS = ['p', 'br', 'b', 'i', 'em', 'strong', 'a' ]
 
