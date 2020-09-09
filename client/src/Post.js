@@ -6,6 +6,8 @@ import { format } from 'date-fns'
 import isodate from 'isodate'
 import './Post.scss'
 
+const API_URL = process.env.API_URL || '127.0.0.1:9000'
+
 
 class Post extends Component {
   constructor(props) {
@@ -57,7 +59,7 @@ class PostIndex extends Component {
   }
 
   callAPI() {
-    fetch("http://localhost:9000/posts")
+    fetch(`${API_URL}/posts`)
       .then(res => res.json())
       .then(res => {console.log('res', res.posts); this.setState({posts: res})})
       .catch(err => err)
@@ -119,7 +121,7 @@ class PostDetail extends Component {
   }
 
   callAPI() {
-    fetch(`http://localhost:9000/posts/${this.props.match.params.slug}`)
+    fetch(`${API_URL}/posts/${this.props.match.params.slug}`)
       .then(res => res.json())
       .then(res => this.setState({post: res}))
       .catch(err => err)
