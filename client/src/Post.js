@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import isodate from 'isodate'
 import './Post.scss'
 
-const API_URL = process.env.API_URL || '127.0.0.1:9000'
+const API_URL = process.env.API_URL
 
 
 class Post extends Component {
