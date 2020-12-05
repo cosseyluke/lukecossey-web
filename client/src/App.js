@@ -46,7 +46,13 @@ function Header() {
 function Home() {
   return (
     <div className="home-wrap">
-			<p>Luke Cossey<br/>PO Box 58<br/>Lyttelton 8841<br/>New Zealand</p>
+      <p>Software Engineer</p>
+      <p>&nbsp;</p>
+			<p>
+        <a href="https://github.com/cosseyluke" target="_blank">GitHub</a>
+        <br />
+        <a href="https://www.linkedin.com/in/luke-cossey/" target="_blank">LinkedIn</a>
+      </p>
 		</div>
   )
 }
