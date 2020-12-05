@@ -27,7 +27,7 @@ const postSchema = new mongoose.Schema({
   },
   pub_date: {
     type: Date,
-    default: Date.now
+    required: true,
   },
   title: {
     type: String,
