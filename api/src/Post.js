@@ -36,7 +36,8 @@ const postSchema = new mongoose.Schema({
   slug: {
     type: String,
     unique: true,
-    slug: "title"
+    slug: "title",
+    slugOn: { update: false }
   },
   intro: {
     type: String,
