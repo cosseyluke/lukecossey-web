@@ -10,18 +10,13 @@ const POST_HTML_ALLOWED_TAGS = ['p', 'br', 'b', 'i', 'em', 'strong', 'a' ]
  */
 router.post('/', async(req, res) => {
   const body = {
-    title: req.body.title,
-    pub_date: req.body.pub_date
+    title: req.body.title
   }
 
-  if (req.body.intro) {
-    body.intro = sanitizeHtml(req.body.intro, {
-      allowedTags: POST_HTML_ALLOWED_TAGS})
-  }
-
-  if (req.body.slug) {
-    body.slug = req.body.slug
-  }
+  if (req.body.intro !== undefined) body.intro = sanitizeHtml(
+    req.body.intro, {allowedTags: POST_HTML_ALLOWED_TAGS})
+  if (req.body.pub_date !== undefined) body.pub_date = req.body.pub_date
+  if (req.body.slug !== undefined) body.slug = req.body.slug
 
   const post = new Post(body);
 
@@ -55,16 +50,13 @@ router.delete('/:id', async (req, res) => {
  */
 router.patch('/:id', async (req, res) => {
   try {
-    const body = {
-      title: req.body.title,
-      pub_date: req.body.pub_date,
-      intro: req.body.intro ? '' : sanitizeHtml(req.body.intro, {
-        allowedTags: POST_HTML_ALLOWED_TAGS})
-    }
+    const body = {}
 
-    if (req.body.slug) {
-      body.slug = req.body.slug
-    }
+    if (req.body.title !== undefined) body.title = req.body.title
+    if (req.body.slug !== undefined) body.slug = req.body.slug
+    if (req.body.pub_date !== undefined) body.pub_date = req.body.pub_date
+    if (req.body.intro !== undefined) body.intro = sanitizeHtml(
+      req.body.intro, {allowedTags: POST_HTML_ALLOWED_TAGS})
 
     const post = await Post.findByIdAndUpdate(req.params.id, body)
     res.status(200).send(post)
@@ -126,11 +118,12 @@ router.delete('/:postId/:id', async (req, res) => {
  */
 router.patch('/:postId/:id', async (req, res) => {
   try {
-    const body = {
-      sort_order: req.body.sort_order,
-      text: sanitizeHtml(req.body.text, {
-        allowedTags: POST_HTML_ALLOWED_TAGS})
-    }
+    const body = {}
+
+    if (req.body.text !== undefined) body.text = sanitizeHtml(
+      req.body.text, {allowedTags: POST_HTML_ALLOWED_TAGS})
+    if (req.body.sort_order !== undefined) body.sort_order = req.body.sort_order
+
     const block = await PostBlock.findOneAndUpdate({
       _id: req.params.id,
       post: req.params.postId}, body)
