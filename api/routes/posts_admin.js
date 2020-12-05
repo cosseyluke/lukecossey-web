@@ -14,7 +14,7 @@ router.post('/', async(req, res) => {
   }
 
   if (req.body.intro !== undefined) body.intro = sanitizeHtml(
-    req.body.intro, {allowedTags: POST_HTML_ALLOWED_TAGS})
+    req.body.intro, {allowedTags: POST_HTML_ALLOWED_TAGS}) || ''
   if (req.body.pub_date !== undefined) body.pub_date = req.body.pub_date
   if (req.body.slug !== undefined) body.slug = req.body.slug
 
@@ -56,7 +56,7 @@ router.patch('/:id', async (req, res) => {
     if (req.body.slug !== undefined) body.slug = req.body.slug
     if (req.body.pub_date !== undefined) body.pub_date = req.body.pub_date
     if (req.body.intro !== undefined) body.intro = sanitizeHtml(
-      req.body.intro, {allowedTags: POST_HTML_ALLOWED_TAGS})
+      req.body.intro, {allowedTags: POST_HTML_ALLOWED_TAGS}) || ''
 
     const post = await Post.findByIdAndUpdate(req.params.id, body)
     res.status(200).send(post)
@@ -77,7 +77,7 @@ router.post('/:postId', async (req, res) => {
     const body = {
       sort_order: req.body.sort_order,
       text: sanitizeHtml(req.body.text, {
-        allowedTags: POST_HTML_ALLOWED_TAGS}),
+        allowedTags: POST_HTML_ALLOWED_TAGS}) || '',
       post: post._id
     }
     const postBlock = new PostBlock(body);
@@ -121,7 +121,7 @@ router.patch('/:postId/:id', async (req, res) => {
     const body = {}
 
     if (req.body.text !== undefined) body.text = sanitizeHtml(
-      req.body.text, {allowedTags: POST_HTML_ALLOWED_TAGS})
+      req.body.text, {allowedTags: POST_HTML_ALLOWED_TAGS}) || ''
     if (req.body.sort_order !== undefined) body.sort_order = req.body.sort_order
 
     const block = await PostBlock.findOneAndUpdate({
