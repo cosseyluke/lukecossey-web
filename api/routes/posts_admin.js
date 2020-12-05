@@ -11,6 +11,7 @@ const POST_HTML_ALLOWED_TAGS = ['p', 'br', 'b', 'i', 'em', 'strong', 'a' ]
 router.post('/', async(req, res) => {
   const body = {
     title: req.body.title,
+    pub_date: req.body.pub_date,
     intro: sanitizeHtml(req.body.intro, {
       allowedTags: POST_HTML_ALLOWED_TAGS})
   }
@@ -48,6 +49,7 @@ router.patch('/:id', async (req, res) => {
   try {
     const body = {
       title: req.body.title,
+      pub_date: req.body.pub_date,
       intro: sanitizeHtml(req.body.intro, {
         allowedTags: POST_HTML_ALLOWED_TAGS})
     }
