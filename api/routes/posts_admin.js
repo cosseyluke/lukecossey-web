@@ -9,17 +9,18 @@ const POST_HTML_ALLOWED_TAGS = ['p', 'br', 'b', 'i', 'em', 'strong', 'a' ]
  * POST create post
  */
 router.post('/', async(req, res) => {
-  const introText = req.body.intro ?  sanitizeHtml(req.body.intro, {
-    allowedTags: POST_HTML_ALLOWED_TAGS})
-
   const body = {
     title: req.body.title,
-    pub_date: req.body.pub_date,
-    intro: introText
+    pub_date: req.body.pub_date
   }
 
-  if (introText) {
-    body.intro = introText
+  if (req.body.intro) {
+    body.intro = sanitizeHtml(req.body.intro, {
+      allowedTags: POST_HTML_ALLOWED_TAGS})
+  }
+
+  if (req.body.slug) {
+    body.slug = req.body.slug
   }
 
   const post = new Post(body);
@@ -59,6 +60,10 @@ router.patch('/:id', async (req, res) => {
       pub_date: req.body.pub_date,
       intro: req.body.intro ? '' : sanitizeHtml(req.body.intro, {
         allowedTags: POST_HTML_ALLOWED_TAGS})
+    }
+
+    if (req.body.slug) {
+      body.slug = req.body.slug
     }
 
     const post = await Post.findByIdAndUpdate(req.params.id, body)
