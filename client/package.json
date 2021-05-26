@@ -1,6 +1,7 @@
 {
-  "name": "blog",
-  "version": "0.1.0",
+  "name": "lukecossey-web",
+  "version": "0.1.1",
+  "homepage": "https://cosseyluke.github.io/lukecossey-web",
   "private": true,
   "dependencies": {
     "@babel/core": "7.9.0",
@@ -69,6 +70,8 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
