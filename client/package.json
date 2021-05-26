@@ -1,7 +1,7 @@
 {
   "name": "lukecossey-web",
   "version": "0.1.1",
-  "homepage": "https://cosseyluke.github.io/lukecossey-web",
+  "homepage": "https://lukecossey.com",
   "private": true,
   "dependencies": {
     "@babel/core": "7.9.0",
