@@ -63,7 +63,7 @@ $tablet-margin: 40px;
 $tablet-inner: $tablet-portrait - $tablet-margin * 2;
 
 $phone-margin: 17px;
-$phone-inner: $phone-portrait;
+$phone-inner: $phone-portrait - $phone-margin * 2;
 
 
 

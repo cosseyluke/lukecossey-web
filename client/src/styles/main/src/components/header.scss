@@ -53,8 +53,8 @@
 
     .header-title {
       @include inline-block;
-      width: percentage(1200px / $desktop-inner);
-      margin-left: percentage(120px / $desktop-inner);
+      width: percentage($phone-inner / $phone-portrait);
+      margin-left: percentage($phone-margin / $phone-portrait);
     }
   }
 }

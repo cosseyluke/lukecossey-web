@@ -1,6 +1,11 @@
 @import 'styles/main/src/constants';
 @import 'styles/main/src/type';
 
+$post-width: 960px;
+$title-width: 600px;
+$post-margin: $post-width - $title-width;
+$text-width: 720px;
+
 .post-date-wrap {
   @include sohne-regular(13px);
 
@@ -26,7 +31,7 @@
     .text-wrap {
       @include desktop-and-tablet {
         @include inline-block;
-        width: percentage(600px / $desktop-inner);
+        width: percentage($title-width / $desktop-inner);
 
         .title-wrap {
           .date {
@@ -38,8 +43,8 @@
         }
       }
       @include phone {
-        width: susy-span(10);
-        margin-left: susy-span(1 wide) + susy-gutter() / 2;
+        width: percentage($phone-inner / $phone-portrait);
+        margin-left: percentage($phone-margin / $phone-portrait);
 
         .title-wrap {
           .date {
@@ -61,8 +66,8 @@
   .pagination-nav {
     @include desktop-and-tablet {
       @include inline-block;
-      width: percentage(600px / $desktop-inner);
-      margin-left: percentage(360px / $desktop-inner);
+      width: percentage($title-width / $desktop-inner);
+      margin-left: percentage($post-margin / $desktop-inner);
     }
   }
 }
@@ -77,11 +82,11 @@
       }
       @include desktop-and-tablet {
         @include inline-block;
-        width: percentage(960px / $desktop-inner);
+        width: percentage($post-width / $desktop-inner);
         padding-bottom: 125px;
 
         .post-title {
-          width: percentage(600px / 960px);
+          width: percentage($title-width / $post-width);
           max-width: 585px;
           margin-bottom: 75px;
 
@@ -93,15 +98,15 @@
           margin-bottom: 18px;
 
           & > .text {
-            width: percentage(720px / 960px);
-            max-width: 650px;
+            width: percentage($text-width / $post-width);
+            max-width: $text-width;
           }
         }
       }
       @include phone {
         @include inline-block;
-        width: susy-span(10);
-        margin-left: susy-span(1 wide) + susy-gutter();
+        width: percentage($phone-inner / $phone-portrait);
+        margin-left: percentage($phone-margin / $phone-portrait);
         padding-bottom: 55px;
 
         .post-title {
@@ -115,7 +120,7 @@
           margin-bottom: 15px;
 
           & > .text {
-            width: susy-span(9 of 10 narrow);
+            padding-right: percentage(25px / $phone-inner);
           }
         }
       }
@@ -134,8 +139,8 @@
               margin-bottom: 0;
             }
             & > .text {
-              width: susy-span(6 of 8 narrow);
-              max-width: 650px;
+              width: percentage($text-width / $post-width);
+              max-width: $text-width;
             }
           }
           @include phone {
@@ -145,7 +150,7 @@
               margin-bottom: 0;
             }
             & > .text {
-              width: susy-span(9 of 10 narrow);
+              padding-right: percentage(40px / $phone-inner);
             }
           }
           & > .text {
