@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const slug = require('mongoose-slug-updater');
-const Entities = require('html-entities').AllHtmlEntities
 mongoose.plugin(slug);
 
 const postBlockSchema = new mongoose.Schema({
@@ -9,12 +8,25 @@ const postBlockSchema = new mongoose.Schema({
     default: 0,
     required: true
   },
-  text: {
+  body: {
     type: String,
     default: '',
     required: false,
   },
-  post: {type: mongoose.Schema.Types.ObjectId, ref: 'Post'}
+  post_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Post'}
+})
+
+// db.postblocks.update( {}, { $rename: { 'post': 'post_id', 'text': 'body' } }, { multi: true } );
+
+postBlockSchema.set('toJSON', {
+  transform: (doc, ret, options) => {
+    return {
+      id: ret._id,
+      post_id: ret.post_id,
+      sort_order: ret.sort_order,
+      body: ret.body
+    }
+  }
 })
 
 module.exports.PostBlock = mongoose.model('PostBlock', postBlockSchema);
@@ -51,14 +63,12 @@ const postSchema = new mongoose.Schema({
 
 postSchema.set('toJSON', {
   transform: (doc, ret, options) => {
-    const entities = new Entities()
-
     return {
-      _id: ret._id,
+      id: ret._id,
       pub_date: ret.pub_date,
       title: ret.title,
       slug: ret.slug,
-      intro: entities.encode(ret.intro),
+      intro: ret.intro,
       blocks: ret.blocks,
     }
   }

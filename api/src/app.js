@@ -13,6 +13,7 @@ const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Connected to database!'));
 
+var blockRouter = require('../routes/blocks');
 var postRouter = require('../routes/posts');
 var testAPIRouter = require('../routes/testAPI');
 
@@ -24,7 +25,9 @@ Sentry.init({ dsn: process.env.SENTRY_DSN });
 // The request handler must be the first
 app.use(Sentry.Handlers.requestHandler());
 
-app.use(cors());
+app.use(cors({
+  exposedHeaders: 'X-Total-Count'
+}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -32,6 +35,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/posts', postRouter);
+app.use('/blocks', blockRouter);
 app.use('/testAPI', testAPIRouter);
 
 // The error handler must be before any other error middleware and after all controllers
