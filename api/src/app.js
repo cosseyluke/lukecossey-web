@@ -13,9 +13,10 @@ const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Connected to database!'));
 
-var blockRouter = require('../routes/blocks');
-var postRouter = require('../routes/posts');
-var testAPIRouter = require('../routes/testAPI');
+var authRouter = require('./routes/auth');
+var blockRouter = require('./routes/blocks');
+var postRouter = require('./routes/posts');
+var testAPIRouter = require('./routes/testAPI');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/auth', authRouter);
 app.use('/posts', postRouter);
 app.use('/blocks', blockRouter);
 app.use('/testAPI', testAPIRouter);

@@ -1,7 +1,7 @@
 var express = require('express');
 var sanitizeHtml = require('sanitize-html');
 var router = express.Router();
-const {Post, PostBlock} = require('../src/Post');
+const {Post, PostBlock} = require('../models/post');
 const { parseQueryFilter, parseQuerySort, POST_HTML_ALLOWED_TAGS } = require('./utils');
 
 /**

@@ -5,7 +5,6 @@
  */
 
 var app = require('../src/app');
-var admin_app = require('../src/admin_app');
 var debug = require('debug')('api:server');
 var http = require('http');
 
@@ -95,6 +94,5 @@ class AppServer {
 }
 
 const apps = [
-  new AppServer(app, {port: process.env.PORT}),
-  new AppServer(admin_app, {port: process.env.ADMIN_PORT})
+  new AppServer(app, {port: process.env.PORT})
 ]
