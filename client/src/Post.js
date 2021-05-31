@@ -61,7 +61,7 @@ class PostIndex extends Component {
   callAPI() {
     fetch(`${API_URL}/posts`)
       .then(res => res.json())
-      .then(res => {console.log('res', res.posts); this.setState({posts: res})})
+      .then(res => {this.setState({posts: res})})
       .catch(err => err)
   }
 
@@ -89,7 +89,7 @@ class PostBlock extends Component {
 
   render () {
     const entities = new AllHtmlEntities()
-    const text = entities.decode(this.props.block.text)
+    const text = entities.decode(this.props.block.body)
 
     return (
       <div className="block-listing" key={this.key}>

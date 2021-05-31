@@ -15,7 +15,6 @@ const parseQuerySort = (query, ALLOWED_FIELDS) => {
 
 module.exports.parseQuerySort = parseQuerySort;
 
-
 const parseQueryFilter = (query, filters) => {
   const result = {}
 
@@ -27,3 +26,13 @@ const parseQueryFilter = (query, filters) => {
 };
 
 module.exports.parseQueryFilter = parseQueryFilter;
+
+const slugQuery = function(slug){
+    var query = {$or: [{slug: slug}]};
+    if (slug.match(/^[0-9a-fA-F]{24}$/)) {
+        query.$or.push({_id: slug});
+    }
+    return query;
+}
+
+module.exports.slugQuery = slugQuery;

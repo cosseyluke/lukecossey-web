@@ -1,6 +1,7 @@
 var express = require('express');
 var sanitizeHtml = require('sanitize-html');
 
+const { parseQueryFilter, parseQuerySort, POST_HTML_ALLOWED_TAGS, slugQuery } = require('./utils');
 const {Post} = require('../models/posts');
 const { parseQueryFilter, parseQuerySort, POST_HTML_ALLOWED_TAGS } = require('./utils');
 
@@ -52,11 +53,12 @@ router.post('/', async(req, res) => {
 /**
  * GET post
  *
- * @param {String} id id of the post object
+ * @param {String} slug slug or id of the post object
  */
-router.get('/:id', async(req, res) => {
+router.get('/:slug', async(req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findOne(slugQuery(req.params.slug)).populate(
+      'blocks');
     res.json(post);
   } catch (err) {
     res.status(500).json({message: err.message })
