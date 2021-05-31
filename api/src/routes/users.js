@@ -2,12 +2,14 @@ var express = require('express');
 var router = express.Router();
 const { parseQueryFilter, parseQuerySort } = require('./utils');
 
+const withAuth = require('../middleware');
+
 const {User} = require('../models/users.js');
 
 /**
  * GET user listings
  */
-router.get('/', async(req, res) => {
+router.get('/', withAuth, async(req, res) => {
   const ALLOWED_FILTER = {'id': '_id', 'email': 'email'};
   const ALLOWED_SORT = ['email', 'first_name', 'last_name', 'created'];
   const query = req.query;
@@ -27,7 +29,7 @@ router.get('/', async(req, res) => {
 /**
  * POST create user
  */
-router.post('/', async(req, res) => {
+router.post('/', withAuth, async(req, res) => {
   const body = {
     email: req.body.email,
     password: req.body.password
@@ -51,7 +53,7 @@ router.post('/', async(req, res) => {
  *
  * @param {String} id id of the user object
  */
-router.get('/:id', async(req, res) => {
+router.get('/:id', withAuth, async(req, res) => {
   try {
     const user = await User.findById(req.params.id);
     res.json(user);
@@ -61,23 +63,9 @@ router.get('/:id', async(req, res) => {
 });
 
 /**
- * GET user
- *
- * @param {String} id id of the user object
+ * PUT update user
  */
-router.get('/:id/test', async(req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    res.json({email: user.email, password: user.password});
-  } catch (err) {
-    res.status(500).json({message: err.message })
-  }
-});
-
-/**
- * PATCH update user
- */
-router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, async (req, res) => {
   try {
     const body = {
       'email': req.body.email,
@@ -86,21 +74,14 @@ router.put('/:id', async (req, res) => {
     }
     const newPassword = req.body.new_password !== undefined ? req.body.new_password : null;
 
-    console.log('body', body);
-    console.log('newPassword', newPassword);
-
     const user = await User.findByIdAndUpdate(req.params.id, body, function(err, user) {
-      console.log('err', err);
-      console.log('user', user);
       if (err) {
-        console.error('in update', err);
-        // res.status(500).send(err);
+        res.status(500).send(err);
       } else {
         if (newPassword !== null) {
           user.password = newPassword;
           user.save(function (err, user) {
             if (err) {
-              console.error('in password save', err);
               throw Error(err)
             }
           });
@@ -114,7 +95,6 @@ router.put('/:id', async (req, res) => {
       res.status(404).send('User not found');
     }
   } catch (err) {
-    console.error('in route', err);
     res.status(500).send(err);
   }
 })

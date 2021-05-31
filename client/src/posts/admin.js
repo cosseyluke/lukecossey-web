@@ -46,8 +46,6 @@ export const PostEdit = (props) => {
 };
 
 const AddNewBlockButton = ({ record }) => {
-  console.log('record', record);
-
   if (record) {
     return (
       <Button

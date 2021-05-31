@@ -1,8 +1,11 @@
 var express = require('express');
 var sanitizeHtml = require('sanitize-html');
 var router = express.Router();
-const {Post, PostBlock} = require('../models/posts');
+
+const withAuth = require('../middleware');
 const { parseQueryFilter, parseQuerySort, POST_HTML_ALLOWED_TAGS } = require('./utils');
+
+const {Post, PostBlock} = require('../models/posts');
 
 /**
  * GET block listings
@@ -27,7 +30,7 @@ router.get('/', async(req, res) => {
 /**
  * POST create block
  */
-router.post('/', async(req, res) => {
+router.post('/', withAuth, async(req, res) => {
   const body = {}
 
   if (req.body.post_id !== undefined) body.post_id = req.body.post_id
@@ -63,7 +66,7 @@ router.get('/:id', async(req, res) => {
 /**
  * PUT update block
  */
-router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, async (req, res) => {
   try {
     const body = {}
 
@@ -84,7 +87,7 @@ router.put('/:id', async (req, res) => {
  *
  * @param {String} id id of the block object
  */
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
   try {
     const block = await PostBlock.findOneAndDelete({
       _id: req.params.id

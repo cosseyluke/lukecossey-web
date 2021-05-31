@@ -7,9 +7,10 @@
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
-    "@sentry/node": "^5.18.1",
+    "@sentry/node": "^5.30.0",
+    "@sentry/tracing": "^6.4.1",
     "bcrypt": "^5.0.1",
-    "cookie-parser": "~1.4.4",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",

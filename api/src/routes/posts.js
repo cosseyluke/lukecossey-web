@@ -1,9 +1,10 @@
 var express = require('express');
 var sanitizeHtml = require('sanitize-html');
 
+const withAuth = require('../middleware');
 const { parseQueryFilter, parseQuerySort, POST_HTML_ALLOWED_TAGS, slugQuery } = require('./utils');
+
 const {Post} = require('../models/posts');
-const { parseQueryFilter, parseQuerySort, POST_HTML_ALLOWED_TAGS } = require('./utils');
 
 var router = express.Router();
 
@@ -30,7 +31,7 @@ router.get('/', async(req, res) => {
 /**
  * POST create post
  */
-router.post('/', async(req, res) => {
+router.post('/', withAuth, async(req, res) => {
   const body = {
     title: req.body.title
   }
@@ -66,9 +67,9 @@ router.get('/:slug', async(req, res) => {
 });
 
 /**
- * PATCH update post
+ * PUT update post
  */
-router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, async (req, res) => {
   try {
     const body = {}
 
