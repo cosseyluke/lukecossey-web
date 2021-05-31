@@ -1,7 +1,7 @@
 var express = require('express');
 var sanitizeHtml = require('sanitize-html');
 
-const {Post} = require('../models/post');
+const {Post} = require('../models/posts');
 const { parseQueryFilter, parseQuerySort, POST_HTML_ALLOWED_TAGS } = require('./utils');
 
 var router = express.Router();
@@ -66,7 +66,7 @@ router.get('/:id', async(req, res) => {
 /**
  * PATCH update post
  */
-router.patch('/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const body = {}
 
@@ -81,6 +81,6 @@ router.patch('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).send(err)
   }
-})
+});
 
 module.exports = router;

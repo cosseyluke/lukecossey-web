@@ -8,7 +8,7 @@ var logger = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Connected to database!'));
@@ -16,6 +16,7 @@ db.once('open', () => console.log('Connected to database!'));
 var authRouter = require('./routes/auth');
 var blockRouter = require('./routes/blocks');
 var postRouter = require('./routes/posts');
+var userRouter = require('./routes/users');
 var testAPIRouter = require('./routes/testAPI');
 
 var app = express();
@@ -35,9 +36,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/auth', authRouter);
-app.use('/posts', postRouter);
+app.use('/', authRouter);
 app.use('/blocks', blockRouter);
+app.use('/posts', postRouter);
+app.use('/users', userRouter);
 app.use('/testAPI', testAPIRouter);
 
 // The error handler must be before any other error middleware and after all controllers
