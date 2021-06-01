@@ -2,7 +2,7 @@ var express = require('express');
 var sanitizeHtml = require('sanitize-html');
 var router = express.Router();
 
-const withAuth = require('../middleware');
+const { withAuth } = require('../middleware');
 const { parseQueryFilter, parseQuerySort, POST_HTML_ALLOWED_TAGS } = require('./utils');
 
 const {Post, PostBlock} = require('../models/posts');

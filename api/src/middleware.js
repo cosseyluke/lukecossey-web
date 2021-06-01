@@ -21,4 +21,16 @@ const withAuth = function(req, res, next) {
   }
 }
 
-module.exports = withAuth;
+module.exports.withAuth = withAuth;
+
+const REMOVE_HEADERS = ['X-Powered-By', 'Access-Control-Allow-Origin'];
+
+const removeCorsHeaders = function(req, res, next) {
+  REMOVE_HEADERS.forEach((name) => {
+    res.removeHeader(name);
+  });
+
+  next();
+}
+
+module.exports.removeCorsHeaders = removeCorsHeaders;

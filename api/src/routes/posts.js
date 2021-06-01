@@ -1,7 +1,7 @@
 var express = require('express');
 var sanitizeHtml = require('sanitize-html');
 
-const withAuth = require('../middleware');
+const { withAuth } = require('../middleware');
 const { parseQueryFilter, parseQuerySort, POST_HTML_ALLOWED_TAGS, slugQuery } = require('./utils');
 
 const {Post} = require('../models/posts');

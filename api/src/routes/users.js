@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { parseQueryFilter, parseQuerySort } = require('./utils');
 
-const withAuth = require('../middleware');
+const { withAuth } = require('../middleware');
 
 const {User} = require('../models/users.js');
 

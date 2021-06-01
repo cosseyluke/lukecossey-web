@@ -53,6 +53,9 @@ if (process.env.NODE_ENV == "development") {
     credentials: true,
     exposedHeaders: 'X-Total-Count'
   }));
+} else {
+  const { removeCorsHeaders } = require('./middleware');
+  app.use(removeCorsHeaders);
 }
 
 app.use(logger('dev'));
