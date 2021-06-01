@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "https://lukecossey.com/static/css/main.7a829081.chunk.css",
-    "main.js": "https://lukecossey.com/static/js/main.225ed566.chunk.js",
-    "main.js.map": "https://lukecossey.com/static/js/main.225ed566.chunk.js.map",
-    "runtime-main.js": "https://lukecossey.com/static/js/runtime-main.855b89c5.js",
-    "runtime-main.js.map": "https://lukecossey.com/static/js/runtime-main.855b89c5.js.map",
-    "static/css/2.764ccc25.chunk.css": "https://lukecossey.com/static/css/2.764ccc25.chunk.css",
-    "static/js/2.d9b06c64.chunk.js": "https://lukecossey.com/static/js/2.d9b06c64.chunk.js",
-    "static/js/2.d9b06c64.chunk.js.map": "https://lukecossey.com/static/js/2.d9b06c64.chunk.js.map",
-    "index.html": "https://lukecossey.com/index.html",
-    "precache-manifest.ec1bda116fd96a9a2c4d5b8afe4b8b7d.js": "https://lukecossey.com/precache-manifest.ec1bda116fd96a9a2c4d5b8afe4b8b7d.js",
-    "service-worker.js": "https://lukecossey.com/service-worker.js",
-    "static/css/2.764ccc25.chunk.css.map": "https://lukecossey.com/static/css/2.764ccc25.chunk.css.map",
-    "static/css/main.7a829081.chunk.css.map": "https://lukecossey.com/static/css/main.7a829081.chunk.css.map",
-    "static/js/2.d9b06c64.chunk.js.LICENSE.txt": "https://lukecossey.com/static/js/2.d9b06c64.chunk.js.LICENSE.txt"
+    "main.css": "/static/css/main.7a829081.chunk.css",
+    "main.js": "/static/js/main.5bef5273.chunk.js",
+    "main.js.map": "/static/js/main.5bef5273.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.420c03f5.js",
+    "runtime-main.js.map": "/static/js/runtime-main.420c03f5.js.map",
+    "static/css/2.764ccc25.chunk.css": "/static/css/2.764ccc25.chunk.css",
+    "static/js/2.027cd63d.chunk.js": "/static/js/2.027cd63d.chunk.js",
+    "static/js/2.027cd63d.chunk.js.map": "/static/js/2.027cd63d.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.2b4f3213f94bde5da86af12f41b7f86d.js": "/precache-manifest.2b4f3213f94bde5da86af12f41b7f86d.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.764ccc25.chunk.css.map": "/static/css/2.764ccc25.chunk.css.map",
+    "static/css/main.7a829081.chunk.css.map": "/static/css/main.7a829081.chunk.css.map",
+    "static/js/2.027cd63d.chunk.js.LICENSE.txt": "/static/js/2.027cd63d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.855b89c5.js",
+    "static/js/runtime-main.420c03f5.js",
     "static/css/2.764ccc25.chunk.css",
-    "static/js/2.d9b06c64.chunk.js",
+    "static/js/2.027cd63d.chunk.js",
     "static/css/main.7a829081.chunk.css",
-    "static/js/main.225ed566.chunk.js"
+    "static/js/main.5bef5273.chunk.js"
   ]
 }
