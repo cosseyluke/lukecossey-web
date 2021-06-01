@@ -10,7 +10,6 @@ import {
 import './App.scss'
 
 import { AdminComponent } from './admin';
-import { ListenPage } from './Listen';
 import { PostIndex, PostDetail } from './Post';
 
 function AdminDashboard() {
