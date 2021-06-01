@@ -6,7 +6,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const cors = require('cors');
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
@@ -44,12 +43,18 @@ app.use(Sentry.Handlers.requestHandler());
 // TracingHandler creates a trace for every incoming request
 app.use(Sentry.Handlers.tracingHandler());
 
-app.use(cors({
-  origin: `${process.env.ACCESS_CONTROL_ALLOW_ORIGIN}`,
-  allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept",
-  credentials: true,
-  exposedHeaders: 'X-Total-Count'
-}));
+// Nginx handles CORS for production
+if (process.env.NODE_ENV == "development") {
+  const cors = require('cors');
+
+  app.use(cors({
+    origin: `${process.env.ACCESS_CONTROL_ALLOW_ORIGIN}`,
+    allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept",
+    credentials: true,
+    exposedHeaders: 'X-Total-Count'
+  }));
+}
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

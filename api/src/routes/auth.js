@@ -35,7 +35,14 @@ router.post('/authenticate', function(req, res) {
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: '1h'
           });
-          res.cookie('token', token, { httpOnly: false }).sendStatus(200);
+          res.cookie(
+            'token',
+            token,
+            {
+              httpOnly: false,
+              secure: process.env.NODE_ENV == "production"
+            }
+          ).sendStatus(200);
         }
       });
     }
