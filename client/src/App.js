@@ -40,7 +40,7 @@ function WebApp() {
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Switch>
         <Route path='/admin' component={AdminDashboard} />
         <Route path='/' component={WebApp} />
