@@ -73,13 +73,16 @@ app.use(Sentry.Handlers.errorHandler());
 app.use(function onError(err, req, res, next) {
   // The error id is attached to `res.sentry` to be returned
   // and optionally displayed to the user for support.
-  res.statusCode = 500;
+  let statusCode = 500;
+  let message = res.sentry + "\n";
 
   if (process.env.NODE_ENV == "development") {
-    res.end(err + "\n");
-  } else {
-    res.end(res.sentry + "\n");
+    statusCode = err.status || 500;
+    message = err + "\n";
   }
+
+  res.status(statusCode);
+  res.end(message);
 });
 
 module.exports = app;
