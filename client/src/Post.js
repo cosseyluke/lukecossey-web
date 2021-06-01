@@ -8,7 +8,6 @@ import './Post.scss'
 
 const API_URL = process.env.API_URL
 
-
 class Post extends Component {
   constructor(props) {
     super(props)
@@ -83,10 +82,6 @@ class PostIndex extends Component {
 }
 
 class PostBlock extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render () {
     const entities = new AllHtmlEntities()
     const text = entities.decode(this.props.block.body)

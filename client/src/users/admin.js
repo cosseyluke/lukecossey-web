@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Create, List, Edit, SimpleForm, SingleFieldList, ChipField, TextInput, NumberInput, PasswordInput, DateInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton, required } from 'react-admin';
-import { Show, SimpleShowLayout, Button, Link, ListButton, RefreshButton } from "react-admin";
+import { Create, List, Edit, SimpleForm, TextInput, PasswordInput, DateInput, Datagrid, TextField, DateField, required } from 'react-admin';
+import { Show, SimpleShowLayout } from "react-admin";
 
 const UserTitle = ({ record }) => {
     return <span>User {record ? `"${record.email}"` : ''}</span>;

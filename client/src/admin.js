@@ -4,7 +4,7 @@ import { Admin, Resource, fetchUtils } from "react-admin";
 import jsonServerProvider from "ra-data-json-server";
 
 import authProvider from "./authProvider";
-import { BlockCreate, BlockEdit, BlockList } from "./blocks/admin";
+import { BlockCreate, BlockEdit } from "./blocks/admin";
 import { PostCreate, PostEdit, PostList, PostShow } from "./posts/admin";
 import { UserCreate, UserEdit, UserList, UserShow } from "./users/admin";
 

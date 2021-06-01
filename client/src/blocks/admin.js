@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Create, List, Edit, SimpleForm, SingleFieldList, ReferenceInput, SelectInput, ReferenceField, NumberField, ChipField, TextInput, NumberInput, DateInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton, required } from 'react-admin';
+import { Create, List, Edit, SimpleForm, ReferenceInput, SelectInput, ReferenceField, NumberField, NumberInput, Datagrid, TextField, required } from 'react-admin';
 import RichTextInput from 'ra-input-rich-text';
 import { parse } from "query-string";
 

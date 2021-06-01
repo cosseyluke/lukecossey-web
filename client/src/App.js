@@ -1,6 +1,6 @@
 import 'normalize.css'
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -67,9 +67,9 @@ function Home() {
       <p>Software Engineer</p>
       <p>&nbsp;</p>
 			<p>
-        <a href="https://github.com/cosseyluke" target="_blank">GitHub</a>
+        <a href="https://github.com/cosseyluke" target="_blank" rel="noopener noreferrer">GitHub</a>
         <br />
-        <a href="https://www.linkedin.com/in/luke-cossey/" target="_blank">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/luke-cossey/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </p>
 		</div>
   )
