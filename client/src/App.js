@@ -2,7 +2,7 @@ import 'normalize.css'
 
 import React, { Component } from 'react';
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Switch,
   Route,
   Link
