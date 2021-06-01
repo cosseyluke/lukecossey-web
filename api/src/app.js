@@ -1,6 +1,7 @@
 require('dotenv').config();
 var createError = require('http-errors');
-var Sentry = require('@sentry/node');
+const Sentry = require("@sentry/node");
+const Tracing = require("@sentry/tracing");
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -22,10 +23,26 @@ var testAPIRouter = require('./routes/testAPI');
 var app = express();
 
 // Sentry setup
-Sentry.init({ dsn: process.env.SENTRY_DSN });
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Tracing.Integrations.Express({ app }),
+  ],
 
-// The request handler must be the first
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
+
+// RequestHandler creates a separate execution context using domains, so that every
+// transaction/span/breadcrumb is attached to its own Hub instance
 app.use(Sentry.Handlers.requestHandler());
+// TracingHandler creates a trace for every incoming request
+app.use(Sentry.Handlers.tracingHandler());
 
 app.use(cors({
   origin: `${process.env.ACCESS_CONTROL_ALLOW_ORIGIN}`,
@@ -45,24 +62,24 @@ app.use('/posts', postRouter);
 app.use('/users', userRouter);
 app.use('/testAPI', testAPIRouter);
 
+app.get("/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
+
 // The error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler());
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// Optional fallthrough error handler
+app.use(function onError(err, req, res, next) {
+  // The error id is attached to `res.sentry` to be returned
+  // and optionally displayed to the user for support.
+  res.statusCode = 500;
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  const status = err.status || 500
-  res.status(status);
-  res.send(`${status} - ${err.message}`);
+  if (process.env.NODE_ENV == "development") {
+    res.end(err + "\n");
+  } else {
+    res.end(res.sentry + "\n");
+  }
 });
 
 module.exports = app;
