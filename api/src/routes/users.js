@@ -78,7 +78,7 @@ router.put('/:id', withAuth, async (req, res) => {
       if (err) {
         res.status(500).send(err);
       } else {
-        if (newPassword !== null) {
+        if (newPassword !== null && newPassword !== '') {
           user.password = newPassword;
           user.save(function (err, user) {
             if (err) {

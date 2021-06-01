@@ -16,8 +16,6 @@ const postBlockSchema = new mongoose.Schema({
   post_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Post'}
 })
 
-// db.postblocks.update( {}, { $rename: { 'post': 'post_id', 'text': 'body' } }, { multi: true } );
-
 postBlockSchema.set('toJSON', {
   transform: (doc, ret, options) => {
     return {
@@ -33,6 +31,10 @@ module.exports.PostBlock = mongoose.model('PostBlock', postBlockSchema);
 
 
 const postSchema = new mongoose.Schema({
+  created: {
+    type: Date,
+    default: Date.now
+  },
   is_live: {
     type: Boolean,
     default: false,

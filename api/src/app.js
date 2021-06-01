@@ -28,6 +28,9 @@ Sentry.init({ dsn: process.env.SENTRY_DSN });
 app.use(Sentry.Handlers.requestHandler());
 
 app.use(cors({
+  origin: `${process.env.ACCESS_CONTROL_ALLOW_ORIGIN}`,
+  allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept",
+  credentials: true,
   exposedHeaders: 'X-Total-Count'
 }));
 app.use(logger('dev'));
