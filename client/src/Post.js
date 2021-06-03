@@ -6,18 +6,21 @@ import { format } from 'date-fns'
 import isodate from 'isodate'
 import './Post.scss'
 
+import {SEO} from './components/seo'
+
 const API_URL = process.env.API_URL
+const BLOG_ROOT_URL = '/blog'
 
 class Post extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      objUrl: `/log/${this.props.post.slug}`
+      objUrl: `${BLOG_ROOT_URL}/${this.props.post.slug}`
     }
   }
 
   getUrl() {
-    return `/log/${this.props.post.slug}`
+    return `${BLOG_ROOT_URL}/${this.props.post.slug}`
   }
 
   render () {
@@ -42,7 +45,7 @@ class PostList extends Component {
     return (
       <div className="post-list">
         {this.props.posts.map((post) => (
-          <Post post={post} key={post._id} />
+          <Post post={post} key={post.id} />
         ))}
       </div>
     )
@@ -73,6 +76,7 @@ class PostIndex extends Component {
 
     return (
       <div className="post-index-page">
+        <SEO title={'Blog'} />
         <div className="post-list-wrap">
           <PostList posts={posts} />
         </div>
@@ -99,7 +103,7 @@ class PostBlockList extends Component {
     return (
       <div className="block-list">
         {this.props.blocks.map((block) => (
-          <PostBlock block={block} key={block._id} />
+          <PostBlock block={block} key={block.id} />
         ))}
       </div>
     )
@@ -131,9 +135,11 @@ class PostDetail extends Component {
       const pubDate = format(isodate(this.state.post.pub_date), 'MMMM d, y')
       const entities = new AllHtmlEntities()
       const intro = entities.decode(this.state.post.intro)
+      const seo_title = this.state.post.seo_title || this.state.post.title
 
       return (
         <section className='blog-post'>
+          <SEO title={seo_title} description={this.state.post.seo_description} />
           <div className="post-wrap">
             <div className="post-date-wrap">
               <div className="date">{pubDate}</div>

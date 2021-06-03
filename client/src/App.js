@@ -11,6 +11,7 @@ import './App.scss'
 
 import { AdminComponent } from './admin';
 import { PostIndex, PostDetail } from './Post';
+import { SEO } from './components/seo';
 
 function AdminDashboard() {
   return (
@@ -25,8 +26,8 @@ function WebApp() {
     <React.Fragment>
       <Header />
       <Switch>
-        <Route path="/log/:slug" component={PostDetail} />
-        <Route path="/log">
+        <Route path="/blog/:slug" component={PostDetail} />
+        <Route path="/blog">
           <PostIndex />
         </Route>
           <Route path="/">
@@ -54,7 +55,7 @@ function Header() {
       <div className="header-title">
         <h3>
           <Link to={"/"}>Luke Cossey</Link>
-          <Link to={"/log"}>Log</Link>
+          <Link to={"/blog"}>Blog</Link>
         </h3>
       </div>
     </header>
@@ -64,6 +65,7 @@ function Header() {
 function Home() {
   return (
     <div className="home-wrap">
+      <SEO description={'A software engineer with a need to create'} />
       <p>Software Engineer</p>
       <p>&nbsp;</p>
 			<p>
