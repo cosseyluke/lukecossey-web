@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const slug = require('mongoose-slug-updater');
 mongoose.plugin(slug);
 
+const {seoPageSchema} = require('./seo');
+
 const postBlockSchema = new mongoose.Schema({
   sort_order: {
     type: Number,
@@ -58,6 +60,7 @@ const postSchema = new mongoose.Schema({
     default: '',
     required: false
   },
+  seo: seoPageSchema,
   blocks: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'PostBlock'}
   ]
@@ -72,6 +75,7 @@ postSchema.set('toJSON', {
       slug: ret.slug,
       intro: ret.intro,
       blocks: ret.blocks,
+      seo: ret.seo
     }
   }
 })

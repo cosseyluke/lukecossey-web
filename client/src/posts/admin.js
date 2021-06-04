@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Create, List, Edit, SimpleForm, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton, required } from 'react-admin';
+import { Create, List, Edit, SimpleForm, TabbedForm, FormTab, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton, required } from 'react-admin';
 import RichTextInput from 'ra-input-rich-text';
 
 import CardActions from "@material-ui/core/CardActions";
@@ -14,33 +14,45 @@ const PostTitle = ({ record }) => {
 
 export const PostCreate = (props) => (
     <Create title={<PostTitle />} {...props}>
-        <SimpleForm>
-          <DateInput label="Publication date" source="pub_date" validate={required()} />
-          <TextInput source="title" validate={required()} />
-          <TextInput source="slug" validate={required()} />
-          <RichTextInput source="intro" validate={required()} />
-        </SimpleForm>
+        <TabbedForm>
+          <FormTab label="body">
+            <DateInput label="Publication date" source="pub_date" validate={required()} />
+            <TextInput source="title" validate={required()} />
+            <TextInput source="slug" validate={required()} />
+            <RichTextInput source="intro" validate={required()} />
+          </FormTab>
+          <FormTab label="seo">
+            <TextInput label="SEO Title" source="seo.title" />
+            <TextInput label="SEO Description" source="seo.description" />
+          </FormTab>
+        </TabbedForm>
     </Create>
 );
 
 export const PostEdit = (props) => {
   return (
     <Edit title={<PostTitle />} {...props}>
-        <SimpleForm>
-            <TextInput disabled label="Id" source="id" />
-            <DateInput label="Publication date" source="pub_date" validate={required()} />
-            <TextInput source="title" validate={required()} />
-            <TextInput source="slug" validate={required()} />
-            <RichTextInput source="intro" validate={required()} />
-            <ReferenceManyField label="Blocks" reference="blocks" target="post_id" sort={blockSort}>
-              <Datagrid>
-                <TextField disabled label="Id" source="id" />
-                <TextField source="sort_order" />
-                <TextField source="body" />
-                <EditButton />
-              </Datagrid>
-            </ReferenceManyField>
-        </SimpleForm>
+      <TabbedForm>
+        <FormTab label="body">
+          <TextInput disabled label="Id" source="id" />
+          <DateInput label="Publication date" source="pub_date" validate={required()} />
+          <TextInput source="title" validate={required()} />
+          <TextInput source="slug" validate={required()} />
+          <RichTextInput source="intro" validate={required()} />
+          <ReferenceManyField label="Blocks" reference="blocks" target="post_id" sort={blockSort}>
+            <Datagrid>
+              <TextField disabled label="Id" source="id" />
+              <TextField source="sort_order" />
+              <TextField source="body" />
+              <EditButton />
+            </Datagrid>
+          </ReferenceManyField>
+        </FormTab>
+        <FormTab label="seo">
+          <TextInput label="SEO Title" source="seo.title" />
+          <TextInput label="SEO Description" source="seo.description" />
+        </FormTab>
+      </TabbedForm>
     </Edit>
   )
 };

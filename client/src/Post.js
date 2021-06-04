@@ -135,11 +135,11 @@ class PostDetail extends Component {
       const pubDate = format(isodate(this.state.post.pub_date), 'MMMM d, y')
       const entities = new AllHtmlEntities()
       const intro = entities.decode(this.state.post.intro)
-      const seo_title = this.state.post.seo_title || this.state.post.title
+      const seo_title = this.state.post.seo.title || this.state.post.title
 
       return (
         <section className='blog-post'>
-          <SEO title={seo_title} description={this.state.post.seo_description} />
+          <SEO title={seo_title} description={this.state.post.seo.description} />
           <div className="post-wrap">
             <div className="post-date-wrap">
               <div className="date">{pubDate}</div>

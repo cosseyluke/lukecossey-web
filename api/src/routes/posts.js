@@ -4,6 +4,7 @@ var sanitizeHtml = require('sanitize-html');
 const { withAuth } = require('../middleware');
 const { parseQueryFilter, parseQuerySort, POST_HTML_ALLOWED_TAGS, slugQuery } = require('./utils');
 
+const {SeoPage} = require('../models/seo');
 const {Post} = require('../models/posts');
 
 var router = express.Router();
@@ -35,12 +36,27 @@ router.post('/', withAuth, async(req, res) => {
   const body = {
     title: req.body.title
   }
+  const seoBody = {}
 
   if (req.body.intro !== undefined) body.intro = sanitizeHtml(
     req.body.intro, {allowedTags: POST_HTML_ALLOWED_TAGS}) || ''
   if (req.body.pub_date !== undefined) body.pub_date = req.body.pub_date
   if (req.body.slug !== undefined) body.slug = req.body.slug
 
+  if (req.body.seo) {
+    if (req.body.seo.title !== undefined) seoBody.title = req.body.seo.title
+    if (req.body.seo.description !== undefined) seoBody.description = req.body.seo.description
+  }
+
+  const seoPage = new SeoPage(seoBody);
+
+  try {
+    newSeoPage = await seoPage.save();
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+
+  body.seo = newSeoPage;
   const post = new Post(body);
 
   try {
@@ -78,6 +94,11 @@ router.put('/:id', withAuth, async (req, res) => {
     if (req.body.pub_date !== undefined) body.pub_date = req.body.pub_date
     if (req.body.intro !== undefined) body.intro = sanitizeHtml(
       req.body.intro, {allowedTags: POST_HTML_ALLOWED_TAGS}) || ''
+
+    if (req.body.seo) {
+      if (req.body.seo.title !== undefined) body['seo.title'] = req.body.seo.title
+      if (req.body.seo.description !== undefined) body['seo.description'] = req.body.seo.description
+    }
 
     const post = await Post.findByIdAndUpdate(req.params.id, body)
     res.status(200).send(post)
