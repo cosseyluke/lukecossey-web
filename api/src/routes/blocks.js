@@ -10,7 +10,7 @@ const {Post, PostBlock} = require('../models/posts');
 /**
  * GET block listings
  */
-router.get('/', async(req, res) => {
+router.get('/', withAuth, async(req, res) => {
   const ALLOWED_FILTER = {'id': '_id', 'post_id': 'post_id'};
   const ALLOWED_SORT = ['id', 'sort_order'];
   const query = req.query;
@@ -68,14 +68,17 @@ router.get('/:id', async(req, res) => {
  */
 router.put('/:id', withAuth, async (req, res) => {
   try {
-    const body = {}
+    const block = await PostBlock.findById(req.params.id);
 
-    if (req.body.post_id !== undefined) body.post_id = req.body.post_id
-    if (req.body.sort_order !== undefined) body.sort_order = req.body.sort_order
-    if (req.body.body !== undefined) body.body = sanitizeHtml(
+    if (req.body.post_id !== undefined) {
+      block._old_post_id = block.post_id
+      block.post_id = req.body.post_id
+    }
+    if (req.body.sort_order !== undefined) block.sort_order = req.body.sort_order
+    if (req.body.body !== undefined) block.body = sanitizeHtml(
       req.body.body, {allowedTags: POST_HTML_ALLOWED_TAGS}) || '';
 
-    const block = await PostBlock.findByIdAndUpdate(req.params.id, body)
+    await block.save();
     res.status(200).send(block)
   } catch (err) {
     res.status(500).send(err)

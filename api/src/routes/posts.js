@@ -10,6 +10,22 @@ const {Post} = require('../models/posts');
 var router = express.Router();
 
 /**
+ * GET post listings public
+ */
+router.get('/list', async(req, res) => {
+  const ALLOWED_SORT = ['pub_date'];
+  const sort = parseQuerySort({_sort: 'pub_date', _order: 'DESC'}, ALLOWED_SORT);
+
+  try {
+    const posts = await Post.find().sort(sort);
+    res.header('X-Total-Count', posts.length);
+    res.json(posts);
+  } catch (err) {
+    res.status(500).json({message: err.message })
+  }
+});
+
+/**
  * GET post listings
  */
 router.get('/', async(req, res) => {

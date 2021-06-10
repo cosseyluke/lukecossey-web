@@ -18,6 +18,26 @@ const postBlockSchema = new mongoose.Schema({
   post_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Post'}
 })
 
+postBlockSchema.pre('save', function(next) {
+  const document = this;
+
+  if (document._old_post_id && this.isModified('post_id')) {
+    module.exports.Post.findById(document._old_post_id, function (err, post) {
+      post.blocks.pull(document._id);
+      post.save();
+    });
+  }
+
+  if (this.isModified('post_id')) {
+    module.exports.Post.findById(document.post_id, function (err, post) {
+      post.blocks.push(document._id);
+      post.save();
+    });
+  }
+
+  next();
+})
+
 postBlockSchema.set('toJSON', {
   transform: (doc, ret, options) => {
     return {

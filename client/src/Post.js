@@ -61,7 +61,7 @@ class PostIndex extends Component {
   }
 
   callAPI() {
-    fetch(`${API_URL}/posts`)
+    fetch(`${API_URL}/posts/list`)
       .then(res => res.json())
       .then(res => {this.setState({posts: res})})
       .catch(err => err)

@@ -4,9 +4,11 @@ import RichTextInput from 'ra-input-rich-text';
 
 import CardActions from "@material-ui/core/CardActions";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
+import EditIcon from "@material-ui/icons/Edit";
 import { Show, SimpleShowLayout, Button, Link, ListButton, RefreshButton } from "react-admin";
 
 const blockSort = {field: 'sort_order', order: 'ASC'};
+const postSort = {field: 'pub_date', order: 'DESC'};
 
 const PostTitle = ({ record }) => {
     return <span>Post {record ? `"${record.title}"` : ''}</span>;
@@ -29,6 +31,18 @@ export const PostCreate = (props) => (
     </Create>
 );
 
+const PostBlockEditButton = ({record}) => (
+  <Button
+    component={Link}
+    to={{
+      pathname: `/blocks/${record.id}`,
+      search: `?post_id=${record.post_id}`,
+    }}
+    label="Edit">
+    <EditIcon />
+  </Button>
+)
+
 export const PostEdit = (props) => {
   return (
     <Edit title={<PostTitle />} {...props}>
@@ -44,7 +58,7 @@ export const PostEdit = (props) => {
               <TextField disabled label="Id" source="id" />
               <TextField source="sort_order" />
               <TextField source="body" />
-              <EditButton />
+              <PostBlockEditButton />
             </Datagrid>
           </ReferenceManyField>
         </FormTab>
@@ -96,7 +110,7 @@ export const PostShow = props => (
           <TextField disabled label="Id" source="id" />
           <TextField source="sort_order" />
           <TextField source="body" />
-          <EditButton />
+          <PostBlockEditButton />
         </Datagrid>
       </ReferenceManyField>
     </SimpleShowLayout>
@@ -104,7 +118,7 @@ export const PostShow = props => (
 );
 
 export const PostList = (props) => (
-    <List {...props}>
+    <List {...props} sort={postSort}>
         <Datagrid rowClick="edit">
             <TextField source="title" />
             <DateField source="pub_date" />

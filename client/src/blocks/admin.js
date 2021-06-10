@@ -25,9 +25,13 @@ export const BlockCreate = props => {
 };
 
 export const BlockEdit = (props) => {
+  const { post_id: post_id_string } = parse(props.location.search);
+  const post_id = post_id_string ? post_id_string : "";
+  const redirect = post_id ? `/posts/${post_id}/show` : "show";
+
   return (
-    <Edit {...props} redirect="show">
-        <SimpleForm>
+    <Edit {...props}>
+        <SimpleForm redirect={redirect}>
             <NumberInput source="sort_order" validate={required()} />
             <RichTextInput source="body" validate={required()} />
             <ReferenceInput label="Post" source="post_id" reference="posts">
@@ -37,14 +41,3 @@ export const BlockEdit = (props) => {
     </Edit>
   )
 };
-
-export const BlockList = props => (
-    <List {...props}>
-        <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <NumberField source="sort_order" />
-            <TextField source="body" />
-            <ReferenceField source="post_id" reference="posts"><TextField source="id" /></ReferenceField>
-        </Datagrid>
-    </List>
-);
